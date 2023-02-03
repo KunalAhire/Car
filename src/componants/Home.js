@@ -1,32 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
-import {APIKEY} from '../config/API';
+import { useEffect } from "react";
 import Spinner from "./Spinner";
 import { useDispatch } from "react-redux";
-import {ShowLoader, HideLoader} from '../state/action-creators/index'
+import {ShowLoader, HideLoader, getAllUsers} from '../state/action-creators/index';
+import { useSelector} from "react-redux";
+
 const Home = () => {
-  const [users, setUsers] = useState([]);
+  const users = useSelector((state)=>state.DataReducers);
   const Dispatch = useDispatch();
 
   useEffect(() => {
-    getAllPosts();
+    //getAllPosts();
+   
+    Dispatch(getAllUsers());
+    
      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getAllPosts = () => {
-    Dispatch(ShowLoader());
-    fetch(`${APIKEY}user/getall`)
-      .then((response) => response.json())
-      .then((json) => {
-        setUsers(json.Users);
-        Dispatch(HideLoader());
-      })
-      .catch((err) => {
-        console.log(err);
-        Dispatch(HideLoader());
-      });
-  };
   return (
     <div className="container">
       <h1 className="text-center">Admin Panel</h1>

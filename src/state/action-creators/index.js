@@ -20,3 +20,16 @@ export const AlertFailed = (payload) =>{
         message : payload
     }
 } 
+
+export const data = (payload) =>{
+    return{
+        type: 'data',
+        message : payload
+    }
+}
+
+export const getAllUsers = () =>{
+    return{
+        type: 'getAllUsers'
+    }
+}
