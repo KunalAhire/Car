@@ -33,3 +33,9 @@ export const getAllUsers = () =>{
         type: 'getAllUsers'
     }
 }
+export const createNewUser = (payload) =>{
+    return{
+        type: 'createNewUser',
+        message : payload
+    }
+}

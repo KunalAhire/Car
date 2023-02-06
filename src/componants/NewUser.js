@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import {APIKEY} from '../config/API';
 import { useDispatch } from "react-redux";
 import { AlertSuccess } from '../state/action-creators/index'
+import { createNewUser} from '../state/action-creators/index';
+
 const NewUser = () => {
+  
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -18,13 +21,14 @@ const NewUser = () => {
   }
   const createUser = (event) =>{
     event.preventDefault();
-    axios.post(`${APIKEY}user/create`,body,{headers: {"content-type": "application/json; charset=UTF-8",}})
-    .then((response)=>{
-      if(response.data.error === 0){navigate("/");Dispatch(AlertSuccess("New User Addedd"));}
-      else{Dispatch(AlertSuccess("Duplicate entries Not Allowted"));}
-    })
-    .catch((err)=>{Dispatch(AlertSuccess(err));});
-  } 
+    Dispatch(createNewUser(body))
+    //  axios.post(`${APIKEY}user/create`,body,{headers: {"content-type": "application/json; charset=UTF-8",}})
+    //  .then((response)=>{
+    //    if(response.data.error === 0){navigate("/");Dispatch(AlertSuccess("New User Addedd"));}
+    //    else{Dispatch(AlertSuccess("Duplicate entries Not Allowted"));}
+    //  })
+    //  .catch((err)=>{Dispatch(AlertSuccess(err));});
+   } 
   return (
     <div className="d-flex flex-column align-items-center justify-content-center" style={{height:"100vh"}}>
      <h2 className="mb-4 fw-light">Register new user</h2>

@@ -1,4 +1,4 @@
-export const Loader = (state = true, action) =>{
+export const Loader = (state = false, action) =>{
     if(action.type === "show"){
         return true;
     }
