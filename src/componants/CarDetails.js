@@ -1,65 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { APIKEY } from "../config/API";
 import Spinner from "./Spinner";
 import { useDispatch } from "react-redux";
-import {ShowLoader, HideLoader, AlertSuccess} from '../state/action-creators/index'
+import { getUsercars, createNewCar } from '../state/action-creators/index'
+import { useSelector} from "react-redux";
 const CarDetails = () => {
+  const cars = useSelector((state)=>state.DataReducers);
   const Dispatch = useDispatch();
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
-  const [cars, setcars] = useState([]);
+  const currentUser = params.get("user");
 
   const [model, setmodel] = useState("");
   const [color, setcolor] = useState("");
   const [purchaseDate, setPurchaseDate] = useState("");
 
-  const componantMount = () => {
-    Dispatch(ShowLoader());
-    fetch(`${APIKEY}/user/get/${params.get("user")}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setcars(json.User.Cars);
-        Dispatch(HideLoader());
-      })
-      .catch((err) => {
-        Dispatch(AlertSuccess("fatal Error occured...please try to contact admin"));
-        Dispatch(HideLoader());
-      });
-  };
 
   const newCar = (e) => {
     e.preventDefault();
-    Dispatch(ShowLoader());
-    fetch(`${APIKEY}car/create`, {
-      method: "POST",
-      body: JSON.stringify({
-        model: model,
-        color: color,
-        ownerid: params.get("user"),
-        purchase_date: purchaseDate,
-      }),
-      headers: { "Content-type": "application/json; charset=UTF-8" },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        if(json.error === 0){
-          Dispatch(AlertSuccess("New Car Addedd"));
-        }else{
-          Dispatch(AlertSuccess("Duplicaate Entrys not allowted"));
-        }
-        componantMount();
-        Dispatch(HideLoader());
-      })
-      .catch((err) => {
-        console.log(err);
-        Dispatch(HideLoader());
-      });
+    Dispatch(createNewCar({model,color,purchaseDate,currentUser}));
   };
   useEffect(() => {
-    componantMount();
+    Dispatch(getUsercars(currentUser))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

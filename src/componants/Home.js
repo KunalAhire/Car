@@ -8,13 +8,14 @@ import { useSelector} from "react-redux";
 
 const Home = () => {
   const users = useSelector((state)=>state.DataReducers);
+  
   const Dispatch = useDispatch();
 
   useEffect(() => {
     //getAllPosts();
    
     Dispatch(getAllUsers());
-    
+   
      // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -26,7 +27,7 @@ const Home = () => {
             Add User
           </Link>
           <div className="row">
-            {users.map((user, index) => {
+            { users.map((user, index) => {
               return (
                 <div className="col-md-3 my-1" key={index}>
                   <div className="card">

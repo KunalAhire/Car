@@ -3,16 +3,17 @@ import { useLocation } from "react-router-dom";
 import { APIKEY } from "../config/API";
 import Spinner from "./Spinner";
 import { useDispatch } from "react-redux";
-import {ShowLoader, HideLoader} from '../state/action-creators/index';
+import {ShowLoader, HideLoader, getServiceRecord} from '../state/action-creators/index';
 import { AlertSuccess } from '../state/action-creators/index'
+import { useSelector} from "react-redux";
 
 const ServiceRecords = () => {
   const Dispatch = useDispatch();
-
+  const car = useSelector((state)=>state.DataReducers);
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const [service, setservice] = useState([]);
-  const [car, setCar] = useState({});
+  const [cars, setCar] = useState([]);
   const [date, setDate] = useState("");
 
   const getDate = () => {
@@ -23,20 +24,7 @@ const ServiceRecords = () => {
     return year + "/" + month + "/" + day;
   };
 
-  const componantMount = () =>{
-    fetch(`${APIKEY}/car/get/${params.get("id")}`)
-      .then((response) => response.json())
-      .then((json) => {
-        setCar(json.Car);
-        setservice(json.Car.Servicing);
-        Dispatch(HideLoader());
-      })
-      .catch((err) => {
-        console.log(err);
-        Dispatch(HideLoader());
-      });
-  }
-
+  
   const ApiCall = (s) => {
     Dispatch(ShowLoader());
     fetch(`${APIKEY}/servicing/create`, {method: "POST",body: 
@@ -50,7 +38,7 @@ const ServiceRecords = () => {
     }})
       .then((response) => response.json())
       .then((json) => {
-        componantMount();
+       // componantMount();
         Dispatch(HideLoader());
         Dispatch(AlertSuccess("New Record inserted"));
       })
@@ -60,9 +48,8 @@ const ServiceRecords = () => {
       });
   };
   useEffect(() => {
-    Dispatch(ShowLoader());
     setDate(getDate());
-    componantMount();
+    Dispatch(getServiceRecord(params.get("id")));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -78,9 +65,9 @@ const ServiceRecords = () => {
       </div>
       
         <div className="row">
-          {service.length <= 0 ? (<h6>Service Record not available</h6>) :
+          {car.Servicing.length <= 0 ? (<h6>Service Record not available</h6>) :
             (
-              service.map((car, index) => {
+              car.Servicing.map((car, index) => {
                 return (
                   <div className="col-md-3 my-1" key={index}>
                     <div className="card">
