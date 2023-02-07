@@ -19,7 +19,7 @@ export const createUser = async (payload) => {
 //get users cars
 
 export const getAllCars = (payload) => {
-  return fetch(`${APIKEY}/user/get/${payload.message}`)
+  return fetch(`${APIKEY}/user/get/${payload}`)
     .then((response) => response.json())
     .then((json) => json)
     .catch((err) => err);

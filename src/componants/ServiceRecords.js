@@ -20,10 +20,7 @@ const ServiceRecords = () => {
   };
 
   useEffect(() => {
-
-    return () => {
-      Dispatch(getServiceRecord(params.get("id")));
-    }
+    Dispatch(getServiceRecord(params.get("id")));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

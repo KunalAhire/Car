@@ -39,7 +39,7 @@ export function* createNewUser(payload) {
 export function* getcars(payload) {
   try {
     yield put({ type: 'show' })
-    const data = yield call(getAllCars, payload);
+    const data = yield call(getAllCars, payload.message);
     if (data.error === 0) {
       yield put({ type: 'data', message: data.User.Cars })
       yield put({ type: 'hide' })
@@ -55,11 +55,14 @@ export function* getcars(payload) {
 
 // create new car for user
 export function* createNewCar(payload) {
+  const user = payload.message.currentUser;
   yield put({ type: 'show' })
   try {
     const data = yield call(createCar, payload.message);
+    delay(500)
     if (data.error === 0) {
-      window.location.reload();
+      yield put({ type: "getUsercars",message: user})
+      yield put({ type: 'AlertSuccess', message: `Entry created !!!` })
     } else {
       throw new Error();
     }
@@ -93,7 +96,7 @@ export function* creatServiceRecord(payload) {
     delay(500)
     if (data.error === 0) {
       yield put({ type: 'AlertSuccess', message: `Service record created successfully` });
-      yield put({type:'getServiceRecord', message: user})
+      yield put({ type: 'getServiceRecord', message: user })
     } else {
       throw new Error();
     }

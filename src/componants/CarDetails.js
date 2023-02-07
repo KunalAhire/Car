@@ -24,9 +24,7 @@ const CarDetails = () => {
   };
   useEffect(() => {
 
-    return () => {
-      Dispatch(getUsercars(currentUser))
-    }
+    Dispatch(getUsercars(currentUser))
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
