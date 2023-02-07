@@ -29,6 +29,12 @@ export const data = (payload) =>{
         message : payload
     }
 }
+export const arr = (payload) =>{
+    return{
+        type: 'arr',
+        message: payload
+    }
+}
 // getting all user details
 export const getAllUsers = () =>{
     return{
@@ -65,6 +71,14 @@ export const createNewCar = (payload) =>{
 export const getServiceRecord = (payload) =>{
     return{
         type: 'getServiceRecord',
+        message: payload
+    }
+}
+
+//Creating new Service Record
+export const creatServiceRecord = (payload) =>{
+    return{
+        type: 'creatServiceRecord',
         message: payload
     }
 }

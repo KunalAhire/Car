@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import Spinner from "./Spinner";
 import { useDispatch } from "react-redux";
-import { getAllUsers} from '../state/action-creators/index';
+import { getAllUsers, data} from '../state/action-creators/index';
 import { useSelector} from "react-redux";
+
 
 const Home = () => {
   const users = useSelector((state)=>state.DataReducers);
@@ -13,7 +14,8 @@ const Home = () => {
 
   useEffect(() => {
     //getAllPosts();
-   
+   Dispatch(data([]));
+  
     Dispatch(getAllUsers());
    
      // eslint-disable-next-line react-hooks/exhaustive-deps

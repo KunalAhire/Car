@@ -1,11 +1,12 @@
 import { put, call, delay } from 'redux-saga/effects';
-import { getAll, createUser, getAllCars, createCar, serviceRecords } from './ApiCall';
+import { getAll, createUser, getAllCars, createCar, serviceRecords, createService } from './ApiCall';
 
 //get all user details
 export function* getAllUsers() {
   try {
     yield put({ type: 'show' })
     const mydata = yield call(getAll);
+    delay(500)
     yield put({ type: 'data', message: mydata.Users })
     yield put({ type: 'hide' })
   } catch (error) {
@@ -53,31 +54,50 @@ export function* getcars(payload) {
 }
 
 // create new car for user
-export function* createNewCar(payload){
-  
+export function* createNewCar(payload) {
+  yield put({ type: 'show' })
   try {
     const data = yield call(createCar, payload.message);
-    if(data.error === 0){
+    if (data.error === 0) {
       window.location.reload();
-    }else{
+    } else {
       throw new Error();
     }
   } catch (error) {
     yield put({ type: 'AlertFailed', message: error })
   }
+  yield put({ type: 'hide' })
 }
 
 // get service record of cars
-export function* getServiceRecord(payload){
+export function* getServiceRecord(payload) {
+  yield put({ type: 'show' })
   try {
     const data = yield call(serviceRecords, payload.message);
-    if(data.error === 0){
-      delay(1000)
-      console.log(data.Car);
-      
-      yield put({ type: 'data', message: data.Car })
+    if (data.error === 0) {
+      yield delay(500)
+      yield put({ type: 'data', message: data.Car.Servicing });
     }
   } catch (error) {
-    yield put({ type: 'AlertFailed', message: error })
+    yield put({ type: 'AlertFailed', message: error });
   }
+  yield put({ type: 'hide' })
+}
+
+//Creating new service record
+export function* creatServiceRecord(payload) {
+  yield put({ type: 'show' })
+  const user = payload.message.user;
+  try {
+    const data = yield call(createService, payload.message);
+    delay(500)
+    if (data.error === 0) {
+      yield put({type:'getServiceRecord', message: user})
+    } else {
+      throw new Error();
+    }
+  } catch (error) {
+    console.log(error);
+  }
+  yield put({ type: 'hide' })
 }

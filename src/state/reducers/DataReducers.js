@@ -3,9 +3,10 @@ const myState = [];
 const DataReducers = (state = myState, action) => {
   if(action.type === "data"){
     return state = action.message;
-  }else{
+  }
+  else{
     return state;
   }
 }
 
-export default DataReducers
+export default DataReducers;

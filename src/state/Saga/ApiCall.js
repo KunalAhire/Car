@@ -27,7 +27,7 @@ export const getAllCars = (payload) => {
 
 // create new car for user
 export const createCar = (payload) => {
- 
+
   return fetch(`${APIKEY}car/create`, {
     method: "POST",
     body: JSON.stringify({
@@ -44,9 +44,35 @@ export const createCar = (payload) => {
 }
 
 // Get Service record of all cars
-export const serviceRecords = async (payload) =>{
+export const serviceRecords = async (payload) => {
   return await fetch(`${APIKEY}/car/get/${payload}`)
-  .then((response) => response.json())
-  .then((json) => json)
-  .catch((err) => err);
+    .then((response) => response.json())
+    .then((json) => json)
+    .catch((err) => err);
 }
+
+// Create new service record
+export const createService = async (payload) => {
+  return fetch(`${APIKEY}/servicing/create`, {
+    method: "POST", body:
+      JSON.stringify({
+        carid: payload.user,
+        servicing_date: getDate(),
+        status: payload.status,
+      }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8",
+    }
+  })
+    .then((response) => response.json())
+    .then((json) => json)
+    .catch((err) => err);
+}
+
+const getDate = () => {
+  let dateObj = new Date();
+  let month = String(dateObj.getMonth() + 1).padStart(2, "0");
+  let day = String(dateObj.getDate()).padStart(2, "0");
+  let year = dateObj.getFullYear();
+  return year + "/" + month + "/" + day;
+};
