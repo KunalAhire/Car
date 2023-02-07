@@ -92,12 +92,14 @@ export function* creatServiceRecord(payload) {
     const data = yield call(createService, payload.message);
     delay(500)
     if (data.error === 0) {
+      yield put({ type: 'AlertSuccess', message: `Service record created successfully` });
       yield put({type:'getServiceRecord', message: user})
     } else {
       throw new Error();
     }
   } catch (error) {
     console.log(error);
+    yield put({ type: 'AlertFailed', message: `Error occured!!! please contact admin` });
   }
   yield put({ type: 'hide' })
 }

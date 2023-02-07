@@ -20,7 +20,10 @@ const ServiceRecords = () => {
   };
 
   useEffect(() => {
-    Dispatch(getServiceRecord(params.get("id")));
+
+    return () => {
+      Dispatch(getServiceRecord(params.get("id")));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -28,10 +31,6 @@ const ServiceRecords = () => {
     <div className="container">
       <h2>Service Record </h2>
       <Spinner />
-      <div>
-        <p>{/* Car Model : {car.model} <br /> purchase Date : {car.purchase_date}  */}</p>
-      </div>
-
       <div className="row">
         {
           car.length <= 0 ? (<h6>Service Record not available</h6>) :

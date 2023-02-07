@@ -1,12 +1,9 @@
 import React, { useEffect } from "react";
 import Alert from "./Alert";
-
 import { useDispatch } from "react-redux";
 import {AlertSuccess, AlertFailed} from '../state/action-creators/index'
 const ServiceEntry = () => {
   const Dispatch = useDispatch();
-    
-
   useEffect(() => {
   
   }, []);
